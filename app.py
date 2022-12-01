@@ -5,7 +5,7 @@ from pprint import PrettyPrinter
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
 from flask import Flask, render_template, request, send_file
-from geopy.geocoders import Nominatim
+# from geopy.geocoders import Nominatim
 
 
 ################################################################################
