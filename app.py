@@ -115,8 +115,29 @@ def comparison_results():
     # pass info for the temperature, humidity, wind speed, and sunset time!
     # HINT: It may be useful to create 2 new dictionaries, `city1_info` and 
     # `city2_info`, to organize the data.
-    context = {
 
+    city1_info = {
+        'date': datetime.now(),
+        'city': result_json['name'],
+        'description': result_json['weather'][0]['description'],
+        'temp': result_json['main']['temp'],
+        'humidity': result_json['main']['humidity'],
+        'wind_speed': result_json['wind']['speed'],
+        'sunrise': datetime.fromtimestamp(result_json['sys']['sunrise']),
+        'sunset': datetime.fromtimestamp(result_json['sys']['sunset']),
+        'units_letter': get_letter_for_units(units)    
+    }
+
+    city2_info = {
+        'date': datetime.now(),
+        'city': result_json['name'],
+        'description': result_json['weather'][0]['description'],
+        'temp': result_json['main']['temp'],
+        'humidity': result_json['main']['humidity'],
+        'wind_speed': result_json['wind']['speed'],
+        'sunrise': datetime.fromtimestamp(result_json['sys']['sunrise']),
+        'sunset': datetime.fromtimestamp(result_json['sys']['sunset']),
+        'units_letter': get_letter_for_units(units)    
     }
 
     return render_template('comparison_results.html', **context)
