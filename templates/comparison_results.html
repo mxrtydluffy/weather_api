@@ -6,7 +6,7 @@
         TODO: Replace the hard-coded cities and date below with data from the 
         server.
     #}
-    <h1>Weather in {{city_1}} and {{city_2}}</h1>
+    <h1>Weather in {{city_1["city"]}} and {{city_2["city"]}}</h1>
     <p>{{date}}</p>
 
 
@@ -15,19 +15,19 @@
         Replace 'F' with the appropriate units.
     #}
     <p>
-        It is {{temp}} {{units_letter}} {{temperature}} in {{city_1}} than in {{city_2}} today.
+        It is {{contrast}} degrees {{units_letter}} {{temperature}} in {{city_1["city"]}} than in {{city_2["city"]}} today.
     </p>
 
     <p>
-        The humidity in {{city_1}} is {{humid_contrast}} {{city_humidity}} than in {{city_2}}.
+        The humidity in {{city_1["city"]}} is {{humid_contrast}} percent {{city_humidity}} than the humidity in {{city_2["city"]}}.
     </p>
 
     <p>
-        The wind speed in {{city_1}} is {{wind_contrast}} {{city_humidity}} than in {{city_2}}.
+        The wind speed in {{city_1["city"]}} is {{wind_contrast}} mph {{city_wind}} than in {{city_2["city"]}}.
     </p>
 
     <p>
-        The sun sets in {{city_1}} {{sunset_contrast}} hours {{sunset}} than in {{city_2}}.
+        The sun sets in {{city_1["city"]}} {{sunset_contrast}} hours {{city_sunset}} than in {{city_2["city"]}}.
     </p>
     
 </section>
