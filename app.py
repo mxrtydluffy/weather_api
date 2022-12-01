@@ -63,7 +63,7 @@ def results():
     result_json = requests.get(API_URL, params=params).json()
 
     # Uncomment the line below to see the results of the API call!
-    # pp.pprint(result_json)
+    pp.pprint(result_json)
 
     # TODO: Replace the empty variables below with their appropriate values.
     # You'll need to retrieve these from the result_json object above.
@@ -88,8 +88,8 @@ def comparison_results():
     """Displays the relative weather for 2 different cities."""
     # TODO: Use 'request.args' to retrieve the cities & units from the query
     # parameters.
-    city_1 = request.args.get("city_1")
-    city_2 = request.args.get("city_2")
+    city_1 = request.args.get("city1")
+    city_2 = request.args.get("city2")
     units = request.args.get("units")
 
     # TODO: Make 2 API calls, one for each city. HINT: You may want to write a 
@@ -118,7 +118,7 @@ def comparison_results():
 
     city1_info = {
         'date': datetime.now(),
-        'city_1': result1_json['name'],
+        'city': result1_json['name'],
         'description': result1_json['weather'][0]['description'],
         'temp': result1_json['main']['temp'],
         'humidity': result1_json['main']['humidity'],
@@ -130,7 +130,7 @@ def comparison_results():
 
     city2_info = {
         'date': datetime.now(),
-        'city_2': result2_json['name'],
+        'city': result2_json['name'],
         'description': result2_json['weather'][0]['description'],
         'temp': result2_json['main']['temp'],
         'humidity': result2_json['main']['humidity'],
@@ -140,35 +140,56 @@ def comparison_results():
         'units_letter': get_letter_for_units(units)    
     }
 
-    # context = {
-    #     'date': datetime.now(),
-    #     'city_1': city1_info,
-    #     'city_2': city2_info,
-    #     'temperature': temperature,
-    #     'contrast': contrast,
-    #     'city_humidity': city_humidity
-    # }
-
-    return render_template('comparison_results.html', **context)
 
     # Comparison results function
 
     #For Temperature
     if city1_info ["temp"] > city2_info["temp"]:
         temperature = "warmer"
-        contrast = city2_info["temp"] - city2_indo["temp"]
+        contrast = city1_info["temp"] - city2_info["temp"]
     else:
         temperature = "colder"
         contrast = city2_info["temp"] - city1_info["temp"]
 
     #For Humidity
-
+    if city1_info["humidity"] > city2_info["humidity"]:
+        city_humidity = "greater"
+        humid_contrast = city1_info["humidity"] - city2_info["humidity"]
+    else:
+        city_humidity = "less"
+        humid_contrast = city2_info["humidity"] - city1_info["humidity"]
 
     #For Wind Speed
-
+    if city1_info["wind_speed"] > city2_info["wind_speed"]:
+        city_wind = "greater"
+        wind_contrast= city1_info["wind_speed"] - city2_info["wind_speed"]
 
     #For Sunset
+    if city1_info["sunset1"] > city2_info["sunset2"]:
+        city_sunset = "later"
+        sunset_contrast = int(str(city2_info["sunset1"])) - int(str(city1_info["sunset2"]))
+    else:
+        city_sunset = "earlier"
+        sunset_contrast =int(city2_info["sunset2"]) - int(city1_info["sunset1"])
 
-if __name__ == '__main__':
-    app.config['ENV'] = 'development'
-    app.run(debug=True)
+
+    context = {
+        'date': datetime.now(),
+        'city_1': city1_info,
+        'city_2': city2_info,
+        'temperature': temperature,
+        'contrast': contrast,
+        'city_humidity': city_humidity,
+        'humid_contrast': humid_contrast,
+        'city_wind': city_wind,
+        'wind_contrast': wind_contrast,
+        'city_sunset': city_sunset,
+        'sunset_contrast': sunset_contrast,
+        'units_letter': get_letter_for_units(units)
+    }
+
+    return render_template('comparison_results.html', **context)
+
+# if __name__ == '__main__':
+#     app.config['ENV'] = 'development'
+#     app.run(debug=True)
