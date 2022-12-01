@@ -59,6 +59,7 @@ def results():
         'appid': API_KEY
     }
 
+
     result_json = requests.get(API_URL, params=params).json()
 
     # Uncomment the line below to see the results of the API call!
@@ -66,10 +67,7 @@ def results():
 
     # TODO: Replace the empty variables below with their appropriate values.
     # You'll need to retrieve these from the result_json object above.
-
-    # For the sunrise & sunset variables, I would recommend to turn them into
-    # datetime objects. You can do so using the `datetime.fromtimestamp()` 
-    # function.
+    
     context = {
         'date': datetime.now(),
         'city': result_json['name'],
@@ -77,9 +75,9 @@ def results():
         'temp': result_json['main']['temp'],
         'humidity': result_json['main']['humidity'],
         'wind_speed': result_json['wind']['speed'],
-        'sunrise': datetime.fromtimestamp(result_json['sys']['sunrise']),
-        'sunset': datetime.fromtimestamp(result_json['sys']['sunset']),
-        'units_letter': get_letter_for_units(units)
+        'sunrise': datetime.fromtimestamp(result_json['sys']['sunrise']),   # For the sunrise & sunset variables, I would recommend to turn them into
+        'sunset': datetime.fromtimestamp(result_json['sys']['sunset']),     # datetime objects. You can do so using the `datetime.fromtimestamp()`
+        'units_letter': get_letter_for_units(units)                         # function.
     }
 
     return render_template('results.html', **context)
@@ -90,12 +88,27 @@ def comparison_results():
     """Displays the relative weather for 2 different cities."""
     # TODO: Use 'request.args' to retrieve the cities & units from the query
     # parameters.
-    city1 = ''
-    city2 = ''
-    units = ''
+    city1 = request.args.get("city1")
+    city2 = request.args.get("city2")
+    units = request.args.get("units")
 
     # TODO: Make 2 API calls, one for each city. HINT: You may want to write a 
     # helper function for this!
+    params = {
+        'q': city1,
+        'units': units,
+        'appid': API_KEY
+    }
+
+    params_2 = {
+        'q': city2,
+        'units': units,
+        'appid': API_KEY
+    }
+
+    # Needed for each params
+    result_json = request.get(API_URL, params=params).json()
+    result2_json = request.get(API_URL, params=params_2).json()
 
 
     # TODO: Pass the information for both cities in the context. Make sure to
